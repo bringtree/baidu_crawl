@@ -108,10 +108,14 @@ MYSQL_PORT = 3306
 # LOG_LEVEL
 LOG_LEVEL = 'WARNING'
 
-# # scrapy-redis
-# REDIS_URL = 'redis://:123456@127.0.0.1:6380'  # for master
-# # REDIS_URL = 'redis://:yzd@10.140.0.2:6379'  # for slave (master's ip)
-# SCHEDULER = "scrapy_redis.scheduler.Scheduler"
-# SCHEDULER_PERSIST = True
-# DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+# scrapy-redis
 
+SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+SCHEDULER_PERSIST = True
+DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+
+REDIS_HOST = "127.0.0.1"
+REDIS_PORT = "6380"
+REDIS_PARAMS ={
+    'password': '123456',
+}

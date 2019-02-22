@@ -22,7 +22,7 @@ class BaiduPipeline(object):
     def open_spider(self, spider):
         pass
 
-    @check_spider_pipeline(['bd'])
+    @check_spider_pipeline(['bd','search_master_spider'])
     def process_item(self, item, spider):
         query = self.dbpool.runInteraction(self._conditional_insert, item)
         query.addErrback(self._handle_error, item, spider)  # 调用异常处理方法

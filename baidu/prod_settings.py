@@ -108,3 +108,16 @@ MYSQL_PORT = 8100
 
 # LOG_LEVEL
 LOG_LEVEL = 'WARNING'
+
+
+# scrapy-redis
+
+SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+SCHEDULER_PERSIST = True
+DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+
+REDIS_HOST = "0.0.0.0"
+REDIS_PORT = "6379"
+REDIS_PARAMS ={
+    'password': '123456',
+}
