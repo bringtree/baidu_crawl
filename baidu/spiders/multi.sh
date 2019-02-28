@@ -1,4 +1,4 @@
-for i in {0..10}
+for i in {0..22}
 {
-	scrapy crawl search_master_spider &
+	scrapy crawl similarity_question &
 }

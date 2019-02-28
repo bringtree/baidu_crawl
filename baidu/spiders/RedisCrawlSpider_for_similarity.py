@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from scrapy import signals
 from scrapy.exceptions import DontCloseSpider
 from scrapy.spiders import Spider, CrawlSpider
@@ -109,11 +111,10 @@ class RedisMixin(object):
             Message from redis.
 
         """
-        keyword_page = bytes_to_str(data, self.redis_encoding)
-        keyword, page = keyword_page.split('&&&&&&&&&&')
-        url = 'http://zhidao.baidu.com/q?ct=17&tn=ikaslist&word=' + keyword + '&pn=0&rn=21'
+        url_page = bytes_to_str(data, self.redis_encoding)
+        url, page = url_page.split('&&&&&&&&&&')
         # TODO 这里调用的是 scrapy的request
-        return Request(url, dont_filter=True, meta={'cur_page': int(page), 'keyword': keyword})
+        return Request(url, dont_filter=True, meta={'first_href': url, 'cur_page': int(page)})
 
     def schedule_next_requests(self):
         """Schedules a request if available"""

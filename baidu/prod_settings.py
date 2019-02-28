@@ -96,11 +96,11 @@ SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'
 SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'
 
 # # # 数据库
-MYSQL_HOST = '172.17.82.174'
+MYSQL_HOST = '0.0.0.0'
 MYSQL_DBNAME = 'baiduzhidaoDB'
-MYSQL_USER = 'wangpeng'
-MYSQL_PASSWD = 'wangpeng'
-MYSQL_PORT = 8100
+MYSQL_USER = 'root'
+MYSQL_PASSWD = '123456'
+MYSQL_PORT = 3307
 
 
 # 暂停和恢复
@@ -118,6 +118,6 @@ DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 
 REDIS_HOST = "0.0.0.0"
 REDIS_PORT = "6379"
-REDIS_PARAMS ={
-    'password': '123456',
-}
+# REDIS_PARAMS ={
+#     'password': '123456',
+# }

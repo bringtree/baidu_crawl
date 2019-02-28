@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from scrapy.http import Request
-from baidu.spiders.RedisCrawlSpider import RedisCrawlSpider
+from baidu.spiders.RedisCrawlSpider_for_search import RedisCrawlSpider
+import re
 
 from baidu.items import BaiduItem
 import re
-import urllib.parse
 
 
 class SearchMasterSpider(RedisCrawlSpider):

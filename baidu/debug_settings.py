@@ -106,7 +106,7 @@ MYSQL_PORT = 3306
 # JOBDIR='baidu.com'
 
 # LOG_LEVEL
-LOG_LEVEL = 'WARNING'
+# LOG_LEVEL = 'WARNING'
 
 # scrapy-redis
 
@@ -116,6 +116,3 @@ DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 
 REDIS_HOST = "127.0.0.1"
 REDIS_PORT = "6380"
-REDIS_PARAMS ={
-    'password': '123456',
-}

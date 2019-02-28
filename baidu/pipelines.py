@@ -22,7 +22,7 @@ class BaiduPipeline(object):
     def open_spider(self, spider):
         pass
 
-    @check_spider_pipeline(['bd','search_master_spider'])
+    @check_spider_pipeline(['bd', 'search_master_spider'])
     def process_item(self, item, spider):
         query = self.dbpool.runInteraction(self._conditional_insert, item)
         query.addErrback(self._handle_error, item, spider)  # 调用异常处理方法
@@ -91,9 +91,34 @@ class SimilarityPipeline(object):
         return cls(dbpool)
 
     def _conditional_insert(self, tx, item):
-        sql = "insert into similarity_question(faq_question,similarity_question,href,`like`) values(%s,%s,%s,%s);"
-        params = (item['faq_question'], item['similarity_question'], item['href'], item['like'])
-        tx.execute(sql, params)
+        # TODO 这个2记得要改
+        if item['cur_page'] < 3:
+            sql = "insert into question_answer(question,question_href," \
+                  "answer_1,answer_1_author,answer_1_like,answer_1_unlike," \
+                  "answer_2,answer_2_author,answer_2_like,answer_2_unlike," \
+                  "answer_3,answer_3_author,answer_3_like,answer_3_unlike) " \
+                  "values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
+            params = (item['first_question'], item['question_href'],
+                      item['answer_1'],item['answer_1_author'],item['answer_1_like'],item['answer_1_unlike'],
+                      item['answer_2'],item['answer_2_author'],item['answer_2_like'],item['answer_2_unlike'],
+                      item['answer_3'],item['answer_3_author'],item['answer_3_like'],item['answer_3_unlike'],)
+            tx.execute(sql, params)
+
+            sql = "insert into similarity_question(first_question,second_question,first_href,second_href,second_rank) values(%s,%s,%s,%s,%s);"
+            params = (item['first_question'], item['second_question'], 'https://zhidao.baidu.com' + item['first_href'],
+                      'https://zhidao.baidu.com' + item['second_href'], item['second_rank'])
+            tx.execute(sql, params)
+        else:
+            sql = "insert into question_answer(question,question_href," \
+                  "answer_1,answer_1_author,answer_1_like,answer_1_unlike," \
+                  "answer_2,answer_2_author,answer_2_like,answer_2_unlike," \
+                  "answer_3,answer_3_author,answer_3_like,answer_3_unlike) " \
+                  "values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
+            params = (item['first_question'], item['question_href'],
+                      item['answer_1'], item['answer_1_author'], item['answer_1_like'], item['answer_1_unlike'],
+                      item['answer_2'], item['answer_2_author'], item['answer_2_like'], item['answer_2_unlike'],
+                      item['answer_3'], item['answer_3_author'], item['answer_3_like'], item['answer_3_unlike'],)
+            tx.execute(sql, params)
 
     def _handle_error(self, failue, item, spider):
         # TODO 异常处理的代码还没有写完!
