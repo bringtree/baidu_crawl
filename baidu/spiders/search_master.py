@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-import scrapy
-from scrapy.http import Request
-from baidu.spiders.RedisCrawlSpider_for_search import RedisCrawlSpider
-import re
 
+from baidu.scrapy_redis_bloomfilter.RedisCrawlSpider_for_search import RedisCrawlSpider as RedisCrawlSpider
 from baidu.items import BaiduItem
 import re
 
@@ -12,27 +9,6 @@ class SearchMasterSpider(RedisCrawlSpider):
     name = 'search_master_spider'
     allowed_domains = ['baidu.com']
     redis_key = 'search:start_urls'
-
-    #
-    # custom_settings = {
-    #     'REDIS_HOST': "0.0.0.0",
-    #     'REDIS_PORT': "6380",
-    #     'REDIS_PARAMS': {
-    #         'password': '123456',
-    #     }
-    # }
-
-    #
-    # def __init__(self, *args, **kwargs):
-    #     super(SearchMasterSpider, self).__init__(*args, **kwargs)
-    #     self.page = 1
-    #
-    # def start_requests(self):
-    #     with open('./keyword.txt') as fp:
-    #         for keyword in fp.readlines():
-    #             keyword = keyword.replace('\n', '')
-    #             url = https://zhidao.baidu.com/search?ct=20&tn=ikaslist&word=%E4%B8%80&pn=0&rn=21
-    #             yield scrapy.Request(url, self.parse, meta={'cur_page': 1, 'keyword': keyword})
 
     def parse(self, response):
         # 当前爬去页数

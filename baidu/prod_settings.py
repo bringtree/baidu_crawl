@@ -91,17 +91,16 @@ ITEM_PIPELINES = {
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 # 广度优先
-DEPTH_PRIORITY = 1
-SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'
-SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'
+# DEPTH_PRIORITY = 1
+# SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'
+# SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'
 
 # # # 数据库
 MYSQL_HOST = '0.0.0.0'
 MYSQL_DBNAME = 'baiduzhidaoDB'
 MYSQL_USER = 'root'
 MYSQL_PASSWD = '123456'
-MYSQL_PORT = 3307
-
+MYSQL_PORT = 3306
 
 # 暂停和恢复
 # JOBDIR='baidu.com'
@@ -109,15 +108,21 @@ MYSQL_PORT = 3307
 # LOG_LEVEL
 LOG_LEVEL = 'WARNING'
 
-
 # scrapy-redis
 
-SCHEDULER = "scrapy_redis.scheduler.Scheduler"
 SCHEDULER_PERSIST = True
-DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 
 REDIS_HOST = "0.0.0.0"
 REDIS_PORT = "6379"
-# REDIS_PARAMS ={
-#     'password': '123456',
-# }
+REDIS_PARAMS = {'password': ''}
+REDIS_ENCODING = "UTF-8"
+REDIS_AUTH = {'password': ''}
+
+# 去重类，要使用Bloom Filter请替换DUPEFILTER_CLASS
+
+SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+# 散列函数的个数，默认为6，可以自行修改
+BLOOMFILTER_HASH_NUMBER = 6
+# Bloom Filter的bit参数，默认30，占用128MB空间，去重量级1亿
+BLOOMFILTER_BIT = 32

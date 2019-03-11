@@ -1,13 +1,9 @@
-# -*- coding: utf-8 -*-
-
 from scrapy import signals
 from scrapy.exceptions import DontCloseSpider
 from scrapy.spiders import Spider, CrawlSpider
-# 旧版的make_requests_from_url_DontRedirect 被弃用了m顺便帮作者改一下改成request
-from scrapy.http import Request
-from scrapy_redis import connection
-from scrapy_redis import defaults
-from scrapy_redis.utils import bytes_to_str
+
+from . import connection, defaults
+from .utils import bytes_to_str
 
 
 class RedisMixin(object):
@@ -88,7 +84,6 @@ class RedisMixin(object):
             if not data:
                 # Queue empty.
                 break
-            # TODO bringtree make_request_from_data 只让我们存放urls
             req = self.make_request_from_data(data)
             if req:
                 yield req
@@ -111,11 +106,8 @@ class RedisMixin(object):
             Message from redis.
 
         """
-        keyword_page = bytes_to_str(data, self.redis_encoding)
-        keyword, page = keyword_page.split('&&&&&&&&&&')
-        url = 'http://zhidao.baidu.com/q?ct=17&tn=ikaslist&word=' + keyword + '&pn=0&rn=21'
-        # TODO 这里调用的是 scrapy的request
-        return Request(url, dont_filter=True, meta={'cur_page': int(page), 'keyword': keyword})
+        url = bytes_to_str(data, self.redis_encoding)
+        return self.make_requests_from_url(url)
 
     def schedule_next_requests(self):
         """Schedules a request if available"""

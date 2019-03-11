@@ -21,7 +21,7 @@ USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:54.0) Gecko/20100101 
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 100
+CONCURRENT_REQUESTS = 1000
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -64,7 +64,7 @@ COOKIES_ENABLED = False
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'baidu.pipelines.BaiduPipeline': 200,
+    'baidu.pipelines.BaiduPipeline': 300,
     'baidu.pipelines.SimilarityPipeline': 300,
 
 }
@@ -91,12 +91,21 @@ ITEM_PIPELINES = {
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 # 广度优先
-DEPTH_PRIORITY = 1
-SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'
-SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'
+# DEPTH_PRIORITY = 1
+# SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'
+# SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'
 
-# # # 数据库
-MYSQL_HOST = '127.0.0.1'
+# 去重类，要使用Bloom Filter请替换DUPEFILTER_CLASS
+SCHEDULER = "baidu.scrapy_redis.scheduler.Scheduler"
+DUPEFILTER_CLASS = "baidu.scrapy_redis.dupefilter.RFPDupeFilter"
+# 散列函数的个数，默认为6，可以自行修改
+BLOOMFILTER_HASH_NUMBER = 6
+# Bloom Filter的bit参数，默认30，占用128MB空间，去重量级1亿
+BLOOMFILTER_BIT = 32
+
+
+# 数据库配置
+MYSQL_HOST = '0.0.0.0'
 MYSQL_DBNAME = 'baiduzhidaoDB'
 MYSQL_USER = 'root'
 MYSQL_PASSWD = '123456'
@@ -106,13 +115,13 @@ MYSQL_PORT = 3306
 # JOBDIR='baidu.com'
 
 # LOG_LEVEL
-# LOG_LEVEL = 'WARNING'
+LOG_LEVEL = 'WARNING'
 
-# scrapy-redis
-
-SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+# scrapy-redis 数据库配置
 SCHEDULER_PERSIST = True
-DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+REDIS_HOST = "0.0.0.0"
+REDIS_PORT = "6379"
+REDIS_PARAMS = {'password': ''}
+REDIS_ENCODING = "UTF-8"
+REDIS_AUTH = {'password': ''}
 
-REDIS_HOST = "127.0.0.1"
-REDIS_PORT = "6380"

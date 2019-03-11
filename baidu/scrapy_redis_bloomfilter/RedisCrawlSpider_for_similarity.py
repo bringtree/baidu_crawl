@@ -6,9 +6,9 @@ from scrapy.spiders import Spider, CrawlSpider
 # 旧版的make_requests_from_url_DontRedirect 被弃用了m顺便帮作者改一下改成request
 from scrapy.http import Request
 
-from scrapy_redis import connection, defaults
+from scrapy_redis import connection
+from scrapy_redis import defaults
 from scrapy_redis.utils import bytes_to_str
-
 
 class RedisMixin(object):
     """Mixin class to implement reading urls from a redis queue."""

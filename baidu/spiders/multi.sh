@@ -1,4 +1,4 @@
-for i in {0..22}
+for i in {0..20}
 {
 	scrapy crawl similarity_question &
 }

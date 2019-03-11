@@ -9,23 +9,22 @@ import scrapy
 
 
 class BaiduItem(scrapy.Item):
+    """
+    关键字 item模型
+    """
     # define the fields for your item here like:
     # name = scrapy.Field()
     search_key = scrapy.Field()
     question = scrapy.Field()
     href = scrapy.Field()
 
-class SimilarityItem(scrapy.Item):
+class QuestionAnswerItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    first_question = scrapy.Field()
-    first_href = scrapy.Field()
-    cur_page = scrapy.Field()
-
-    second_question = scrapy.Field()
-    second_href = scrapy.Field()
-    second_rank = scrapy.Field()
-
+    """
+    问题-答案 模型
+    """
+    question = scrapy.Field()
     question_href = scrapy.Field()
 
     answer_1 = scrapy.Field()
@@ -42,3 +41,18 @@ class SimilarityItem(scrapy.Item):
     answer_3_author = scrapy.Field()
     answer_3_like = scrapy.Field()
     answer_3_unlike = scrapy.Field()
+
+class SimilarityQuestionItem(scrapy.Item):
+    """
+    当前页面 和 相似问题模型
+    """
+    # define the fields for your item here like:
+    # name = scrapy.Field()
+    cur_page = scrapy.Field()
+    first_question = scrapy.Field()
+    first_href = scrapy.Field()
+
+    second_question = scrapy.Field()
+    second_href = scrapy.Field()
+    second_rank = scrapy.Field()
+
