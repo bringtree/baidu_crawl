@@ -19,6 +19,7 @@
 ├── scrapy.cfg # scrapy (生成模型|调试模式)的配置文件
 ├── scrapy_redis #scrapy_redis的包 已经改成布隆去重了
 ├── select_pipelines.py select_pipelines装饰器
+├── producer.py 生产者的参考代码
 ```
 
 ```
@@ -30,3 +31,28 @@ cd spiders
 sh multi.sh
 ```
 
+```
+如何添加新的爬取连接 
+cd /container_data/mysql
+vim run.py
+
+import redis
+
+r = redis.Redis(host='0.0.0.0', port=6379, decode_responses=True,
+                )  # host是redis主机，需要redis服务端和客户端都启动 redis默认端口是6379
+#
+with open('/container_data/mysql/mini_ac',encoding='utf-8') as fp:
+    for keyword in fp.readlines():
+        keyword = keyword.replace('\n', '')
+        r.lpush('similarity:start_urls', keyword)
+
+修改 /container_data/mysql/mini_ac 
+href.sql是全部数据
+modify_href.sql 是由href.sql清洗出连接的数据
+mini_aa  mini_ab  mini_ac  mini_ad  mini_ae  mini_af  mini_ag  mini_ah  mini_ai  mini_aj  mini_ak 
+是由href.sql 切分出来的数据
+mini_ab mini_ac 已经跑了
+mini_aa 跑的时候没有去重 预计要重新跑一次
+为你接下来要爬取的链接名字。 
+然后运行 python3 run.py  等几分钟后 运行结束后就添加完成了
+```
